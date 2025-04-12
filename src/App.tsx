@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import react, { useState } from "react";
+
+import { SearchArchetypes } from "./components/Search/SearchArchetypes";
+import { SearchLevel } from "./components/Search/SearchLevel";
+import { SearchFname } from "./components/Search/SearchFname";
+import { SearchTypes } from "./components/Search/SearchType";
+import { Search } from "./components/Search/Search";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedFname, setSelectedFname] = useState<string | null>(null);
+
+  const [selectedArchetype, setSelectedArchetype] = useState<
+    string | string[] | null
+  >(null);
+
+  const [selectedLevel, setSelectedLevel] = useState<string | string[] | null>(
+    null
+  );
+  const [selectedTypes, setSelectedTypes] = useState<string[] | null>(null);
+
+  console.log("fname", selectedFname);
+  console.log("selectedArchetype", selectedArchetype);
+  console.log("selectedLevel", selectedLevel);
+  console.log("selectedTypes", selectedTypes);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SearchFname setSelectedFname={setSelectedFname} />
+      <Search
+        setSelectedResource={setSelectedArchetype}
+        multiple={false}
+        resourceType="archetype"
+        endpoint="get-archetypes"
+      />
+      <Search
+        setSelectedResource={setSelectedLevel}
+        multiple={false}
+        resourceType="levels"
+        endpoint="get-levels"
+      />
+      <Search
+        setSelectedResource={setSelectedLevel}
+        multiple={true}
+        resourceType="type"
+        endpoint="get-types"
+      />
+      {/* 
+      <SearchTypes setSelectedTypes={setSelectedTypes} /> */}
     </>
-  )
+  );
 }
-
-export default App
+export default App;
