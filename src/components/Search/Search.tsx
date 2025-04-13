@@ -31,7 +31,7 @@ export const Search = ({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         setLoading(false);
-        setError(`Failed to ${resourceType} levels data`);
+        setError(`Failed to ${resourceType} data`);
       }
     };
     fetchData();
