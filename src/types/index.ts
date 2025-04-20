@@ -62,7 +62,12 @@ export type SpellCardType = {
   card_sets: CardSet[];
   card_images: CardImage[];
   card_prices: CardPrice[];
+  attribute: null;
+  atk:null
+  def:null
+  level:null
 };
+
 
 export type TrapCardType = {
   id: number;
@@ -76,6 +81,11 @@ export type TrapCardType = {
   card_sets: CardSet[];
   card_images: CardImage[];
   card_prices: CardPrice[];
+  archetype: null;
+  attribute: null;
+  atk: null;
+  def: null;
+  level: null;
 };
 
 export type CardMetaType= {
@@ -87,6 +97,14 @@ export type CardMetaType= {
   pages_remaining: number;
   next_page: string;
   next_page_offset: number;
+};
+
+export type CardSetType = {
+  set_name: string;
+  set_code: string;
+  set_rarity: string;
+  set_rarity_code: string;
+  set_price: string;
 };
 
 export type CardType = MonsterCardType | SpellCardType | TrapCardType;

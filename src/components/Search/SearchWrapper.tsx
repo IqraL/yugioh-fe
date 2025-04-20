@@ -5,8 +5,10 @@ import { SearchBody } from "../../types";
 
 export const SearchWrapper = ({
   setSearchBody,
+  setCurrentPage
 }: {
   setSearchBody: (searchBody: SearchBody) => void;
+  setCurrentPage: (page: number) => void;
 }) => {
   const [selectedFname, setSelectedFname] = useState<string | null>(null);
 
@@ -52,17 +54,18 @@ export const SearchWrapper = ({
 
   useEffect(() => {
     setSearchBody(searchBody);
-  }, [searchBody, setSearchBody]);
-
-  console.log("fname", selectedFname);
-  console.log("selectedArchetype", selectedArchetype);
-  console.log("selectedLevel", selectedLevel);
-  console.log("selectedTypes", selectedTypes);
-  console.log("selectedAttributes", selectedAttributes);
-  console.log("selectedRaces", selectedRaces);
+    setCurrentPage(1);
+  }, [searchBody, setCurrentPage, setSearchBody]);
 
   return (
-    <>
+    <div
+      className="search-wrapper"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
+        columnGap: "10px",
+      }}
+    >
       <SearchFname setSelectedFname={setSelectedFname} />
       <Search
         setSelectedResource={setSelectedArchetype}
@@ -94,6 +97,6 @@ export const SearchWrapper = ({
         resourceType="race"
         endpoint="get-allRaces"
       />
-    </>
+    </div>
   );
 };

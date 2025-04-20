@@ -3,38 +3,14 @@ import react, { use, useEffect, useState } from "react";
 
 import { SearchWrapper } from "./components/Search/SearchWrapper";
 import { CardType, CardMetaType } from "./types";
+import { Pagination } from "./components/Pagination";
+import { Cards } from "./components/Cards";
 
 const apiUrl = import.meta.env.VITE_YUGIOH_API_URL;
 type SearchResponse = {
   data?: CardType[];
   meta?: CardMetaType;
   error?: string;
-};
-
-export const Pagination = ({
-  numOfPagesArray,
-  setCurrentPage,
-  setSearchBody,
-  searchBody,
-}: {
-  numOfPagesArray: number[];
-  setCurrentPage: any;
-  setSearchBody: any;
-  searchBody:any
-}) => {
-  return numOfPagesArray.map((_, index) => (
-    <>
-      <button
-        key={index}
-        onClick={() => {
-          setCurrentPage(index + 1);
-          setSearchBody({ ...searchBody, page: index + 1 });
-        }}
-      >
-        {index + 1}
-      </button>
-    </>
-  ));
 };
 
 function App() {
@@ -45,9 +21,8 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean | null>(null);
 
-  const [numOfPages, setNumOfPages] = useState<number>(1);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [numOfPages, setNumOfPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const numOfPagesArray = new Array(numOfPages).fill(0);
 
@@ -79,8 +54,6 @@ function App() {
         setError(true);
         setLoading(false);
         setCards([]);
-
-        console.log("Error fetching data:", error);
       }
     };
 
@@ -89,13 +62,12 @@ function App() {
     }
   }, [currentPage, searchBody]);
 
-  console.log("cards", cards);
-  console.log("metadata", metadata);
-  console.log("numOfPages", numOfPages);
-  console.log("currentPage", currentPage);
   return (
     <>
-      <SearchWrapper setSearchBody={setSearchBody} />
+      <SearchWrapper
+        setSearchBody={setSearchBody}
+        setCurrentPage={setCurrentPage}
+      />
       <div>
         {numOfPagesArray.length > 0 && (
           <Pagination
@@ -108,45 +80,13 @@ function App() {
       </div>
       {loading && <div>Loading...</div>}
       {error && <div>Failed to fetch data</div>}
-      {cards && cards.length > 0 ? (
-        <Card cardDetails={cards} />
+      {cards && cards.length > 1 ? (
+        <Cards cardDetails={cards} />
       ) : (
-        <div>No cards found</div>
+        <div>Please enter a valid search</div>
       )}
     </>
   );
 }
 
-export const Card = ({ cardDetails }: { cardDetails: CardType[] }) => {
-  return (
-    <div>
-      <h2>Card</h2>
-      {cardDetails.map((card) => {
-        if (card.type === "Spell Card") {
-          return (
-            <div key={card.id}>
-              <div>{card.name}</div>
-              <div>{card.desc}</div>
-              <div>{card.race}</div>
-              <div>{card.type}</div>
-              <div>{card.archetype}</div>
-            </div>
-          );
-        } else if (card.type === "Trap Card") {
-          return (
-            <div key={card.id}>
-              <p>{card.name}</p>
-            </div>
-          );
-        } else {
-          return (
-            <div key={card.id}>
-              <p>{card.name}</p>
-            </div>
-          );
-        }
-      })}
-    </div>
-  );
-};
 export default App;
