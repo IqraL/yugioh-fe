@@ -1,5 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import react, { use, useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 
 import { SearchWrapper } from "./components/Search/SearchWrapper";
 import { CardType, CardMetaType } from "./types";
@@ -14,6 +20,87 @@ type SearchResponse = {
 };
 
 function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth" element={<AuthCodePage />} />
+        <Route path="/" element={<AppWrapper />} />
+      </Routes>
+    </Router>
+  );
+}
+
+const LoginPage = () => {
+  const [signInUrl, setSignInUrl] = useState<string>("");
+  useEffect(() => {
+    const fetchSignInUrl = async () => {
+      const response = await fetch(`${apiUrl}/auth-url`);
+      const data = await response.json();
+      const url = data.authorizationUrl;
+      setSignInUrl(url);
+    };
+    fetchSignInUrl();
+  }, []);
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <p>Welcome to the login page!</p>
+      <button onClick={() => (window.location.href = signInUrl)}>Login</button>
+    </div>
+  );
+};
+
+const AuthCodePage = () => {
+  const [error, setError] = useState<string | null>(null);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const code = queryParams.get("code");
+
+  ///get-tokens
+  useEffect(() => {
+    const fetchTokens = async () => {
+      try {
+        if (code) {
+          const response = await fetch(`${apiUrl}/get-tokens`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ code }),
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            localStorage.setItem("jwtToken", data.jwtToken);
+            localStorage.setItem("email", data.email);
+            localStorage.setItem("name", data.name);
+            localStorage.setItem("picture", data.picture);
+            window.location.href = "/?loginsuccess=true";
+          }
+        }
+      } catch (error) {
+        setError("login failed please try again");
+      }
+    };
+
+    fetchTokens();
+  }, [code]);
+
+  useEffect(() => {
+    if (error) {
+      window.location.href = "/login?error=true";
+    }
+  }, [error]);
+  return (
+    <div>
+      <h1>AuthCodePage </h1>
+      <p>Welcome to the AuthCodePage!</p>
+    </div>
+  );
+};
+const AppWrapper = () => {
   const [searchBody, setSearchBody] = useState<any>({});
   const [metadata, setMetadata] = useState<CardMetaType | null>(null);
 
@@ -26,6 +113,28 @@ function App() {
 
   const numOfPagesArray = new Array(numOfPages).fill(0);
 
+  useEffect(() => {
+    const verifyToken = async () => {
+      const response = await fetch(
+        `${apiUrl}/verify-token`,
+
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+          body: JSON.stringify({
+            email: localStorage.getItem("email")})
+        }
+      );
+      const data = await response.json();
+      if (!data.validJwt) {
+        window.location.href = "/login";
+      }
+    };
+    verifyToken()
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -87,6 +196,6 @@ function App() {
       )}
     </>
   );
-}
+};
 
 export default App;
