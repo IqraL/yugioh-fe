@@ -12,7 +12,6 @@ export const Cards = ({ cardDetails }: { cardDetails: CardType[] }) => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [refetchOwnedCards, setRefetchOwnedCards] = useState<boolean>(true);
 
-
   useEffect(() => {
     const fetchOwnedCards = async () => {
       try {
@@ -24,7 +23,7 @@ export const Cards = ({ cardDetails }: { cardDetails: CardType[] }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userId: "IqraLatif159@gmail.com", // whatever data you're sending
+            userId: `${localStorage.getItem("email")}`,
           }),
         });
 
@@ -75,9 +74,7 @@ export const Card = ({
   setRefetchOwnedCards: (value: boolean) => void;
 }) => {
   const [cardSelected, setCardSelected] = React.useState<boolean>(false);
-  const [checked, setChecked] = React.useState<boolean>(
-    false
-  );
+  const [checked, setChecked] = React.useState<boolean>(false);
 
   useEffect(() => {
     setChecked(ownedCards.includes(`${card.id}`));
@@ -92,7 +89,7 @@ export const Card = ({
         },
         body: JSON.stringify({
           cardId: `${card.id}`,
-          userId: "IqraLatif159@gmail.com",
+          userId: `${localStorage.getItem("email")}`,
         }),
       });
       setRefetchOwnedCards(true);
@@ -104,7 +101,7 @@ export const Card = ({
         },
         body: JSON.stringify({
           cardId: `${card.id}`,
-          userId: "IqraLatif159@gmail.com",
+          userId: `${localStorage.getItem("email")}`,
         }),
       });
       setRefetchOwnedCards(true);
