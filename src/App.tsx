@@ -1,16 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import react from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { LoginPage } from "./components/Auth/LoginPage";
 import { AppWrapper } from "./AppWrapper";
 import { AuthCodePage } from "./components/Auth/AuthCodePage";
-
-
+import { Sets } from "./components/Sets";
+import { ValidateToken } from "./components/Auth/ValidateToken";
+export const apiUrl = import.meta.env.VITE_YUGIOH_API_URL;
 
 function App() {
   return (
@@ -18,11 +14,25 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/auth" element={<AuthCodePage />} />
-        <Route path="/" element={<AppWrapper />} />
+        <Route
+          path="/sets"
+          element={
+            <ValidateToken>
+              <Sets />
+            </ValidateToken>
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <ValidateToken>
+              <AppWrapper />
+            </ValidateToken>
+          }
+        />
       </Routes>
     </Router>
   );
 }
-
 
 export default App;

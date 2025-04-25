@@ -23,29 +23,28 @@ export const AppWrapper = () => {
 
   const numOfPagesArray = new Array(numOfPages).fill(0);
 
-  useEffect(() => {
-    const verifyToken = async () => {
-      const response = await fetch(
-        `${apiUrl}/verify-token`,
+  //   const verifyToken = async () => {
+  //     const response = await fetch(
+  //       `${apiUrl}/verify-token`,
 
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-          },
-          body: JSON.stringify({
-            email: localStorage.getItem("email"),
-          }),
-        }
-      );
-      const data = await response.json();
-      if (!data.validJwt) {
-        window.location.href = "/login";
-      }
-    };
-    verifyToken();
-  }, []);
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+  //         },
+  //         body: JSON.stringify({
+  //           email: localStorage.getItem("email"),
+  //         }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     if (!data.validJwt) {
+  //       window.location.href = "/login";
+  //     }
+  //   };
+  //   verifyToken();
+  // }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,7 +57,6 @@ export const AppWrapper = () => {
           body: JSON.stringify({ ...searchBody, page: currentPage }),
         });
         const data: SearchResponse = await response.json();
-        console.log("data", data);
         if (data.error) {
           throw new Error(data.error);
         } else {

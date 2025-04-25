@@ -25,7 +25,6 @@ export const Search = ({
         setLoading(true);
         const response = await fetch(`${apiUrl}/${endpoint}`);
         const data = await response.json();
-
         setResource(data);
         setLoading(false);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
