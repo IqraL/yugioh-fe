@@ -22,29 +22,7 @@ export const AppWrapper = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   const numOfPagesArray = new Array(numOfPages).fill(0);
-
-  //   const verifyToken = async () => {
-  //     const response = await fetch(
-  //       `${apiUrl}/verify-token`,
-
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-  //         },
-  //         body: JSON.stringify({
-  //           email: localStorage.getItem("email"),
-  //         }),
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     if (!data.validJwt) {
-  //       window.location.href = "/login";
-  //     }
-  //   };
-  //   verifyToken();
-  // }, []);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

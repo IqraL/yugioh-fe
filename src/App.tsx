@@ -6,7 +6,6 @@ import { AppWrapper } from "./AppWrapper";
 import { AuthCodePage } from "./components/Auth/AuthCodePage";
 import { Sets } from "./components/Sets";
 import { ValidateToken } from "./components/Auth/ValidateToken";
-export const apiUrl = import.meta.env.VITE_YUGIOH_API_URL;
 
 function App() {
   return (

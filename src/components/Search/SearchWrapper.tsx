@@ -5,43 +5,26 @@ import { SearchBody } from "../../types";
 
 export const SearchWrapper = ({
   setSearchBody,
-  setCurrentPage
+  setCurrentPage,
 }: {
   setSearchBody: (searchBody: SearchBody) => void;
   setCurrentPage: (page: number) => void;
 }) => {
   const [selectedFname, setSelectedFname] = useState<string | null>(null);
-
-  const [selectedArchetype, setSelectedArchetype] = useState<
-    string | string[] | null
-  >(null);
-
-  const [selectedLevel, setSelectedLevel] = useState<string | string[] | null>(
-    null
-  );
-  const [selectedTypes, setSelectedTypes] = useState<string | string[] | null>(
-    null
-  );
-  const [selectedAttributes, setSelectedAttributes] = useState<
-    string | string[] | null
-  >(null);
-  const [selectedRaces, setSelectedRaces] = useState<string | string[] | null>(
-    null
-  );
+  const [selectedArchetype, setSelectedArchetype] = useState<string | string[] | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<string | string[] | null>(null);
+  const [selectedTypes, setSelectedTypes] = useState<string | string[] | null>(null);
+  const [selectedAttributes, setSelectedAttributes] = useState<string | string[] | null>(null);
+  const [selectedRaces, setSelectedRaces] = useState<string | string[] | null>(null);
 
   const searchBody: SearchBody = useMemo(() => {
     return {
       ...(selectedFname && { fname: selectedFname }),
       ...(selectedArchetype && { archetype: selectedArchetype }),
       ...(selectedLevel && { level: selectedLevel }),
-      ...(Array.isArray(selectedTypes) &&
-        selectedTypes?.length > 0 && { type: selectedTypes.join(",") }),
-      ...(Array.isArray(selectedAttributes) &&
-        selectedAttributes?.length > 0 && {
-          attribute: selectedAttributes.join(","),
-        }),
-      ...(Array.isArray(selectedRaces) &&
-        selectedRaces?.length > 0 && { race: selectedRaces.join(",") }),
+      ...(Array.isArray(selectedTypes) && selectedTypes.length > 0 && { type: selectedTypes.join(",") }),
+      ...(Array.isArray(selectedAttributes) && selectedAttributes.length > 0 && { attribute: selectedAttributes.join(",") }),
+      ...(Array.isArray(selectedRaces) && selectedRaces.length > 0 && { race: selectedRaces.join(",") }),
     };
   }, [
     selectedFname,
@@ -62,8 +45,13 @@ export const SearchWrapper = ({
       className="search-wrapper"
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
-        columnGap: "10px",
+        gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+        gap: "16px",
+        padding: "20px",
+        backgroundColor: "#f9fafb", // light gray background
+        borderRadius: "12px",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+        marginBottom: "24px",
       }}
     >
       <SearchFname setSelectedFname={setSelectedFname} />
