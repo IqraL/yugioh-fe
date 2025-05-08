@@ -6,6 +6,7 @@ import { AppWrapper } from "./AppWrapper";
 import { AuthCodePage } from "./components/Auth/AuthCodePage";
 import { Sets } from "./components/Sets";
 import { ValidateToken } from "./components/Auth/ValidateToken";
+import { NavigationColumn } from "./components/NavigationColumn";
 
 function App() {
   return (
@@ -17,7 +18,18 @@ function App() {
           path="/sets"
           element={
             <ValidateToken>
-              <Sets />
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 7fr",
+                  gap: 10,
+                }}
+              >
+                <NavigationColumn />
+                <div>
+                  <Sets />
+                </div>
+              </div>
             </ValidateToken>
           }
         />
@@ -25,7 +37,18 @@ function App() {
           path="/"
           element={
             <ValidateToken>
-              <AppWrapper />
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 7fr",
+                  gap: 10,
+                }}
+              >
+                <NavigationColumn />
+                <div>
+                  <AppWrapper />
+                </div>
+              </div>
             </ValidateToken>
           }
         />
@@ -33,5 +56,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

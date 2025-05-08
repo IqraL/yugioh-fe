@@ -54,7 +54,7 @@ export const Sets = () => {
         />
       </div>
       <div>
-        {numOfPagesArray.length > 0 && (
+        {numOfPagesArray.length > 1 && (
           <Pagination
             numOfPagesArray={numOfPagesArray}
             setCurrentPage={setCurrentPage}
