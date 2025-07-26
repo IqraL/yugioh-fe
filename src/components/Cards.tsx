@@ -297,7 +297,7 @@ export const Card = ({
         onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#6366f1")}
         onClick={() => setCardSelected(true)}
       >
-        Expand
+        View image
       </button>
 
       <Modal
@@ -338,7 +338,7 @@ export const Card = ({
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <img
-                src={card?.card_images[0].image_url}
+                src={card?.card_images?.[0]?.image_url}
                 height={600}
                 width={400}
                 style={{ borderRadius: "8px" }}

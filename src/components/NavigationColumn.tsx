@@ -27,6 +27,15 @@ export const NavigationColumn = () => {
       >
         Search by sets
       </Button>
+
+      <Button
+        variant="contained"
+        onClick={() => {
+          window.location.href = "/users-collection";
+        }}
+      >
+       My collection
+      </Button>
     </div>
   );
 };
